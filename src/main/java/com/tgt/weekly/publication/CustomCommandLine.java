@@ -51,7 +51,7 @@ public class CustomCommandLine implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         long start = System.currentTimeMillis();
-        if (args.length != 1 || !StringUtils.equalsAny(args[0], ONE_DAY, ONE_WEEK)){
+        if (args.length != 1 || !StringUtils.equalsAny(args[0], ONE_DAY, ONE_WEEK)) {
             log.error("请输入正确的参数");
             return;
         }
@@ -59,7 +59,7 @@ public class CustomCommandLine implements CommandLineRunner {
         dmProperties.setStart(StringUtils.equals(args[0], ONE_DAY) ? DateUtils.getYesterday() : DateUtils.getLastWeekBegin());
         dmProperties.setEnd(StringUtils.equals(args[0], ONE_DAY) ? DateUtils.getToday() : DateUtils.getLastWeekEnd());
         dmProperties.setDay(Integer.parseInt(args[0]));
-        for(DM dm :dmProperties.getDmList()){
+        for (DM dm : dmProperties.getDmList()) {
             linuxConnect.execScript(dm);
             linuxConnect.download(dm);
         }
@@ -68,19 +68,20 @@ public class CustomCommandLine implements CommandLineRunner {
         root.put("statisticalTime", getDateToStringStyle(TIME_FORMAT, new Date()));
         new FreemarkerUtil().createWordTemplate(root,
                 TEMPLATE_NAME,
-                FILE_PATH,
+                DOC_PATH,
                 String.format("BSS服务器运行状态日报_%s.doc", getDateToStringStyle(TIME_FORMAT, new Date())));
         WordToPDF.doc2pdf(
-                String.format("/home/domain/weekly-new/file/BSS服务器运行状态日报_%s.doc", getDateToStringStyle(TIME_FORMAT, new Date())),
-                String.format("/home/domain/weekly-new/file/BSS服务器运行状态日报_%s.pdf", getDateToStringStyle(TIME_FORMAT, new Date()))
+                String.format("/home/domain/weekly-new/doc/BSS服务器运行状态日报_%s.doc", getDateToStringStyle(TIME_FORMAT, new Date())),
+                String.format("/home/domain/weekly-new/pdf/BSS服务器运行状态日报_%s.pdf", getDateToStringStyle(TIME_FORMAT, new Date()))
         );
         sendMail.sendDayPublication();
         log.info("执行总耗时为：{}s", (System.currentTimeMillis() - start) / 1000);
     }
 
-    private void deleteOldFile() throws IOException {
+    private void deleteOldFile() throws IOException, InterruptedException {
         Runtime run = Runtime.getRuntime();
-        run.exec("rm -rf /home/domain/weekly-new/file/*");
-        run.exec("rm -rf /home/domain/weekly-new/compress/*");
+        String[] cmd = {"/bin/sh", "-c", "rm -rf /home/domain/weekly-new/file/*"};
+        int i = run.exec(cmd).waitFor();
+        log.info("删除文件：{}", i);
     }
 }

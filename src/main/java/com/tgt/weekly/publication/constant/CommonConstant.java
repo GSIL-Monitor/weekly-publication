@@ -23,6 +23,7 @@ public class CommonConstant {
     public static final String ACTIVE_LOG_PREFIX = "activelog_";
     public static final String DEDUCT_FLOW_RECORD_PREFIX= "deductflowrecord_";
     public static final String FILE_PATH="/home/domain/weekly-new/file";
+    public static final String DOC_PATH="/home/domain/weekly-new/doc";
 //    public static final String FILE_PATH="F:\\test-weekly";
     public static final String SEPARATOR = java.io.File.separator;
     public static final String TEMPLATE_NAME = "bss-daily-2003.xml";

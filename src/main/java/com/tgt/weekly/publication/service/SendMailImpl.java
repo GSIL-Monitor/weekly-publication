@@ -45,9 +45,9 @@ public class SendMailImpl {
             });
             helper.setText("日报详情见附件");
             helper.setSubject(String.format("BSS服务器运行状态日报_%s", getDateToStringStyle(TIME_FORMAT, new Date())));
-            FileSystemResource file = new FileSystemResource(new File(String.format("/home/domain/weekly-new/file/BSS服务器运行状态日报_%s.pdf", getDateToStringStyle(TIME_FORMAT, new Date()))));
+            FileSystemResource file = new FileSystemResource(new File(String.format("/home/domain/weekly-new/pdf/BSS服务器运行状态日报_%s.pdf", getDateToStringStyle(TIME_FORMAT, new Date()))));
 //            FileSystemResource file = new FileSystemResource(new File(String.format("F:/test-weekly/BSS服务器运行状态日报_%s.doc", getDateToStringStyle(TIME_FORMAT, new Date()))));
-            helper.addAttachment("日报.doc", file);
+            helper.addAttachment("运行日报.pdf", file);
         } catch (MessagingException e) {
             log.error("邮件发送失败，请检查系统");
             e.printStackTrace();
