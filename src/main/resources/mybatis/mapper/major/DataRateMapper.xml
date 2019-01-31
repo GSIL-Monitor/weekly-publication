@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tgt.weekly.publication.major.dao.DataRateDao">
+
+    <select id="countEventIncrement" resultType="integer">
+        SELECT COUNT(id)
+        FROM(
+        SELECT id
+        FROM ${tableName}
+        WHERE lastTime BETWEEN #{startTime}
+        AND #{endTime}
+        UNION ALL
+        SELECT id
+        FROM erp_equipmentactivelog
+        WHERE lastTime BETWEEN #{startTime}
+        AND #{endTime}) a
+    </select>
+
+    <select id="countRunIncrement" resultType="integer">
+        SELECT COUNT(*)  from `erp_equipmentactivecount` WHERE createTime BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <select id="countSimDistributionIncrement" resultType="integer">
+        SELECT COUNT(*)  from `erp_bindlog` WHERE createTime BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <select id="countTaskIncrement" resultType="integer">
+        SELECT COUNT(*)  from `erp_taskresult` WHERE createTime BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <select id="countBindIncrement" resultType="integer">
+        SELECT count(id) from (
+        SELECT id from `erp_equsimbindreleaselog` where createTime BETWEEN #{startTime} AND #{endTime}  union all
+        SELECT id from `erp_equsimbindreleaseloghisbak` where createTime BETWEEN #{startTime} AND #{endTime} ) a
+    </select>
+
+    <select id="countSimOperationIncrement" resultType="integer">
+        SELECT COUNT(*) FROM `erp_simoperationlog` WHERE createDate BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <select id="countBusinessIncrement" resultType="integer">
+        SELECT COUNT(*) FROM  erp_OperationLog WHERE createDate BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <select id="countDistributeIncrement" resultType="integer">
+        SELECT COUNT(*) FROM erp_commandlog WHERE createTime BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <select id="countApiIncrement" resultType="integer">
+        SELECT COUNT(*) FROM  erp_apicalledlog WHERE callTime BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <select id="countInfoIncrement" resultType="integer">
+        SELECT COUNT(*)  FROM  erp_message WHERE createTime BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <select id="countAlertIncrement" resultType="integer">
+        SELECT COUNT(*)  FROM `erp_alarm` WHERE alertCreateTime BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <select id="countCurrent" resultType="integer">
+        SELECT COUNT(*) FROM  ${tableName}
+    </select>
+</mapper>

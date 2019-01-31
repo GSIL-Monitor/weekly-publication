@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    major:
+      url: jdbc:mysql://rm-uf6cn312397aa1g4v.mysql.rds.aliyuncs.com:3306/bssdb
+      username: tgtbssdb
+      password: SCPBSSdb7890-=
+      driver-class-name: com.mysql.jdbc.Driver
+      type: com.zaxxer.hikari.HikariDataSource
+    flow:
+      url: jdbc:mysql://rm-uf6m027zt9j77kki2.mysql.rds.aliyuncs.com:3306/equdeductflow
+      username: tgtbssflowdb
+      password: SCPBSSflowdb7890-=
+      driver-class-name: com.mysql.jdbc.Driver
+      type: com.zaxxer.hikari.HikariDataSource
+
+dm:
+  server:
+    dm-list:
+      - host: 172.16.10.149
+        user: root
+        password: BSS46dmSCP7890-=
+        command: python /opt/scripts/monitor/api_statistics.py  /home/domain/apache-tomcat-7.0.70/logs
+        file-name: DM1_api.txt.zip
+        path: /home/domain/apache-tomcat-7.0.70/logs
+
+      - host: 172.16.10.159
+        user: root
+        password: BSSBdmscp7890-=
+        command: python /opt/scripts/monitor/api_statistics.py /home/apache-tomcat-7.0.70/logs
+        file-name: DM2_api.txt.zip
+        path: /home/apache-tomcat-7.0.70/logs
+
+      - host: 172.16.10.182
+        user: root
+        password: BSSBdmscp7890-=
+        command: python /opt/scripts/monitor/api_statistics.py /home/apache-tomcat-7.0.70/logs
+        file-name: DM3_api.txt.zip
+        path: /home/apache-tomcat-7.0.70/logs
+
+  mail:
+    host: smtp.exmail.qq.com
+    protocol: smtp
+    usename: tiaolun.li@51tgt.com
+    port: 465
+    password: cWNFXDvcaNqw3EZ6
+
+logging:
+  level:
+    com.tgt.weekly.publication.major.dao: DEBUG
+    com.tgt.weekly.publication.flow.dao: DEBUG

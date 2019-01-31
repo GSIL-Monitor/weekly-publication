@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tgt.weekly.publication.flow.dao.DataRateDao">
+
+    <select id="countDeductIncrement" resultType="integer">
+        SELECT COUNT(id)
+        FROM(
+        SELECT id
+        FROM ${tableName}
+        WHERE createTime BETWEEN #{startTime}
+        AND #{endTime}
+        UNION ALL
+        SELECT id
+        FROM deductflowrecord
+        WHERE createTime BETWEEN #{startTime}
+        AND #{endTime}) a
+    </select>
+
+    <select id="countCurrent" resultType="integer">
+        SELECT COUNT(*) FROM  ${tableName}
+    </select>
+</mapper>

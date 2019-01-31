@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tgt.weekly.publication.major.dao.BusinessOverviewDao">
+
+    <select id="countActiveTerminal" resultType="integer">
+        SELECT COUNT(DISTINCT eid)
+        FROM(
+            SELECT eid FROM ${tableName} WHERE lastTime BETWEEN #{startTime} AND #{endTime}
+            UNION ALL
+            SELECT eid FROM erp_equipmentactivelog WHERE lastTime BETWEEN #{startTime} AND #{endTime} )
+            a
+    </select>
+
+    <select id="countActiveSim" resultType="integer">
+        SELECT COUNT(DISTINCT sid)
+        FROM(
+        SELECT sid FROM ${tableName} WHERE lastTime BETWEEN #{startTime} AND #{endTime}
+        UNION ALL
+        SELECT sid FROM erp_equipmentactivelog WHERE lastTime BETWEEN #{startTime} AND #{endTime} )
+        a
+    </select>
+
+    <select id="countOnlinePeak" resultType="integer">
+        SELECT
+        SUM( `onLine` ) AS ONLINE
+        FROM
+        `erp_equipmentactivecount`
+        WHERE
+        `createTime` BETWEEN #{startTime} and #{endTime} GROUP BY createTime ORDER BY ONLINE DESC LIMIT 1
+    </select>
+</mapper>
